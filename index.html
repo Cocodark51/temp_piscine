@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Thermomètre de piscine</title>
+</head>
+<body>
+  <h1>Température de la piscine</h1>
+  <p id="temperature">En attente de données...</p>
+
+  <script>
+    // Fonction pour mettre à jour la température affichée
+    function updateTemperature(temp) {
+      var temperatureElement = document.getElementById("temperature");
+      temperatureElement.textContent = "Température actuelle : " + temp + "°C";
+    }
+
+    // Fonction pour récupérer les données de température depuis le serveur
+    function fetchTemperature() {
+      // Fait une requête HTTP GET au serveur
+      fetch("http://ton-serveur.com/temperature")
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(data) {
+          updateTemperature(data.temperature);
+        })
+        .catch(function(error) {
+          console.log("Erreur lors de la récupération de la température :", error);
+        });
+    }
+
+    // Met à jour la température initiale au chargement de la page
+    fetchTemperature();
+
+    // Met à jour la température toutes les 10 secondes
+    setInterval(fetchTemperature, 10000);
+  </script>
+</body>
+</html>
